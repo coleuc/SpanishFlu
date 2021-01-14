@@ -1,3 +1,4 @@
+# this script draws a lorenz curve to show the inequality in incidence rates
 # set up part ----
 # define standard repo for rpackages
 local({r <- getOption("repos")
