@@ -1,4 +1,4 @@
-# make histogram ----
+# make histogram: this code prepares the data and afterwards creates a nice looking histogram
 # set up part ----
 # define standard repo for rpackages
 local({r <- getOption("repos")
