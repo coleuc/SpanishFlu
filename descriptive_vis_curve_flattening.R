@@ -1,3 +1,6 @@
+# this script creates a line graph with the 7-day rolling average on the y axis and the total cases on the x axis. Therefore, it creates a graph that shows the 'flattening of the curve'
+# in the Swiss canton of Berne.
+
 # set up part ----
 # define standard repo for rpackages
 local({r <- getOption("repos")
@@ -51,15 +54,14 @@ grippe <- grippe %>% mutate(Date = as.Date(grippe$Date, "%d.%m.%Y")) %>% select(
   mutate(Cases = sum(NumbCasesAdjust2)) %>% select(Date, Cases) %>% unique() %>% ungroup()#  %>%
   # mutate(Date = format(Date, "%d.%m.%Y"))
 
-
-
 grippe <- grippe %>% arrange(Date) %>%
   dplyr::mutate(cases07 = zoo::rollmean(Cases, k =7, fill = NA)) %>% 
   dplyr::mutate(totalDay = cumsum(Cases))
 
+# need to drop N/A s or it screws up ggplot later
 grippe_narm <- grippe %>% drop_na()
 
-  
+# make the actual graph
 ggplot(data=grippe_narm) + geom_line(aes(x=totalDay, y=cases07), size=1, color="#7a0177") +
   theme_bw() + 
   labs(title = "'Flatten the Curve' During the 1918 Influenza Pandemic",
